@@ -1,10 +1,18 @@
+version: 2
+ 
 sources:
-    - name: jaffle_shop
-      description: This is a replica of the Postgres database used by our app
-      database: raw
-      schema: jaffle_shop
-      tables:
-          - name: customers
-            description: One record per customer.
-          - name: orders
-            description: One record per order. Includes cancelled and deleted orders.
+  - name: raw_smartmart
+    database: "{{ env_var('SMARTMART_DB', 'SMARTMART_DB') }}"  # optional: use env var for portability
+    schema: RAW_SMARTMART
+    tables:
+      - name: customers
+        description: "Raw customers table loaded from transactional system."
+      - name: regions
+        description: "Regional master data for stores."
+      - name: stores
+        description: "Store master data."
+      - name: orders
+        description: "Raw orders (header level)."
+      - name: order_items
+        description: "Raw order line items."
+ 

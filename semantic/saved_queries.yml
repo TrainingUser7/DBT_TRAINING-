@@ -1,0 +1,11 @@
+version: 2
+ 
+saved_queries:
+  - name: region_daily_sales
+    description: "Daily net sales by region."
+    metrics:
+      - total_sales
+      - total_orders
+    group_by:
+      - region_name
+      - order_date

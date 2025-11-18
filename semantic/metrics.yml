@@ -1,0 +1,31 @@
+version: 2
+ 
+metrics:
+  - name: total_sales
+    label: "Total Sales"
+    description: "Total net sales (net_sales) across orders."
+    type: simple
+    type_params:
+      measure: net_sales
+ 
+  - name: total_gross_sales
+    label: "Total Gross Sales"
+    description: "Total gross sales before discounts."
+    type: simple
+    type_params:
+      measure: gross_sales
+ 
+  - name: total_orders
+    label: "Total Orders"
+    description: "Count of distinct orders."
+    type: simple
+    type_params:
+      measure: order_count
+ 
+  - name: avg_order_value
+    label: "Average Order Value"
+    description: "Average net_sales per order."
+    type: derived
+    type_params:
+      expr: "total_sales / nullif(total_orders, 0)"
+ 

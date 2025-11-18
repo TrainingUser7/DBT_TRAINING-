@@ -1,0 +1,55 @@
+version: 2
+ 
+semantic_models:
+  - name: fct_sales_daily_semantic
+    description: "Semantic model mapping to the daily sales fact table (fct_sales_daily)."
+    model: ref('fct_sales_daily')
+    defaults:
+      agg_time_dimension: order_date
+      time_granularity: day
+ 
+    entities:
+      - name: order_id
+        type: primary
+      - name: customer_id
+        type: foreign
+        entity: customers
+ 
+    measures:
+      - name: gross_sales
+        expr: gross_sales
+        agg: sum
+        description: "Sum of extended prices before discounts."
+ 
+      - name: discounts
+        expr: discounts
+        agg: sum
+        description: "Sum of discounts applied at line/header level."
+ 
+      - name: net_sales
+        expr: net_sales
+        agg: sum
+        description: "Net sales after discounts."
+ 
+      - name: tax_amount
+        expr: tax_amt
+        agg: sum
+        description: "Sum of tax amounts."
+ 
+      - name: order_count
+        expr: order_id
+        agg: count_distinct
+        description: "Unique orders (distinct order_id)."
+ 
+    dimensions:
+      - name: order_date
+        type: time
+        type_params:
+          time_granularity: day
+      - name: region_name
+        type: categorical
+      - name: store_name
+        type: categorical
+      - name: loyalty_tier
+        type: categorical
+ 
