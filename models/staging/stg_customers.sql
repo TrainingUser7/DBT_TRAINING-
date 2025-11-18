@@ -30,9 +30,10 @@ clean as (
     end                                                         as gender,
     try_cast(date_of_birth as date)                            as date_of_birth,
     upper(nullif(trim(loyalty_tier), ''))                      as loyalty_tier,
-    try_cast(created_at as timestamp_ntz)                      as created_at,
-    try_cast(updated_at as timestamp_ntz)                      as updated_at
+    created_at                                                 as created_at,
+    updated_at                                                 as updated_at
   from raw
 )
  
 select * from clean
+ 

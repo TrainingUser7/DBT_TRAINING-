@@ -9,8 +9,6 @@ seed-paths: ["seeds"]
 snapshot-paths: ["snapshots"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
- 
-source-paths: ["models"]    # sources.yml lives under models/ per above
 macro-paths: ["macros"]
 target-path: "target"
 clean-targets:
@@ -21,8 +19,6 @@ models:
   smartmart_dbt_project:
     staging:
       +materialized: view
-    intermediate:
-      +materialized: table
     marts:
       +materialized: incremental
     dims:

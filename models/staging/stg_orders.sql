@@ -25,12 +25,12 @@ clean as (
     -- ensure date column is a DATE type (if coming as string)
     try_cast(order_date as date)                               as order_date,
     upper(trim(order_status))                                  as order_status,
-    try_cast(order_total as number)                            as order_total,
-    try_cast(discount_amt as number)                           as discount_amt,
-    try_cast(tax_amt as number)                                as tax_amt,
+    cast(order_total as number)                            as order_total,
+    cast(discount_amt as number)                           as discount_amt,
+    cast(tax_amt as number)                                as tax_amt,
     -- timestamps normalized to TIMESTAMP_NTZ if provided as string
-    try_cast(created_at as timestamp_ntz)                      as created_at,
-    try_cast(updated_at as timestamp_ntz)                      as updated_at
+    created_at                                                 as created_at,
+    updated_at                                                 as updated_at
   from raw
 )
  

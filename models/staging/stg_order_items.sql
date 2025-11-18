@@ -19,14 +19,14 @@ with raw as (
 clean as (
   select
     trim(order_id)                                             as order_id,
-    try_cast(line_num as integer)                              as line_num,
+    cast(line_num as integer)                              as line_num,
     trim(product_sku)                                          as product_sku,
     nullif(trim(product_name), '')                             as product_name,
-    try_cast(quantity as integer)                              as quantity,
-    try_cast(unit_price as number)                             as unit_price,
-    try_cast(extended_price as number)                         as extended_price,
-    try_cast(discount_amt as number)                           as discount_amt,
-    try_cast(created_at as timestamp_ntz)                      as created_at
+    cast(quantity as integer)                              as quantity,
+    cast(unit_price as number)                             as unit_price,
+    cast(extended_price as number)                         as extended_price,
+    cast(discount_amt as number)                           as discount_amt,
+    created_at                                                as created_at
   from raw
 ),
  

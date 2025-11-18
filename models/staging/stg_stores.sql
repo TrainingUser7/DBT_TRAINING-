@@ -20,7 +20,7 @@ clean as (
     trim(region_id)                                            as region_id,
     try_cast(store_open_date as date)                          as store_open_date,
     upper(nullif(trim(store_type), ''))                        as store_type,
-    try_cast(created_at as timestamp_ntz)                      as created_at
+    created_at                                                 as created_at
   from raw
 )
  

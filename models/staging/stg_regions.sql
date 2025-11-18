@@ -14,7 +14,7 @@ clean as (
   select
     trim(region_id)                                            as region_id,
     nullif(trim(region_name), '')                              as region_name,
-    try_cast(created_at as timestamp_ntz)                      as created_at
+    created_at                                                 as created_at
   from raw
 )
  

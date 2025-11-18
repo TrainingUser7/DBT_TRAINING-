@@ -45,13 +45,14 @@ with
         group by 1, 2, 3, 4, 5, 6, 7
  
     )
- select order_id, order_date,region_name,store_id,store_name,
+
+select order_id, order_date,region_name,store_id,store_name,
 customer_id,loyalty_tier,gross_sales, discounts,net_sales, tax_amt
 from enriched
-{
-    % if is_incremental() %
-}
+
+{% if is_incremental() %}
+
 where order_date > (select coalesce(max(order_date),
-'1900-01-01') from {{this}})
+'1900-01-01') from {{ this }})
+
 {% endif %}
-));
