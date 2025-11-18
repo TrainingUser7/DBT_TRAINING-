@@ -1,36 +1,20 @@
-
 version: 2
 
 models:
-  - name: customers
+  - name: stg_claims_header
     columns:
-      - name: customer_id
-        data_tests:
-          - unique
-          
-
-  - name: stg_customers
-    columns:
-      - name: customer_id
-        data_tests:
-          - unique
-          
-
-  - name: stg_orders
-    columns:
-      - name: order_id
-        data_tests:
-          - unique
-          
-      - name: status
-        data_tests:
-          - accepted_values:
-              arguments: # available in v1.10.5 and higher. Older versions can set the <argument_name> as the top-level property.
-                values: ['placed', 'shipped', 'completed', 'return_pending', 'returned']
-      - name: customer_id
-        data_tests:
-          - not_null
+      - name: claim_id
+        tests: [unique, not_null]
+      - name: member_id
+        tests:
           - relationships:
-              arguments:
-                to: ref('stg_customers')
-                field: customer_id
+              to: ref('stg_member_enrollment')
+              field: member_id
+
+  - name: f_revenue_daily
+    description: "Daily revenue and denial summary by region/facility/provider."
+    columns:
+      - name: total_paid
+        tests: [not_null]
+      - name: pay_to_allowed_ratio
+        description: "Paid/Allowed ratio (0–1+)."
