@@ -1,0 +1,6 @@
+hospital_id,hospital_name,city,specialty
+H001,Central Hospital,City1,General
+H002,Northside Medical,City5,Cardiology
+H003,Lakeside Clinic,City3,Outpatient
+H004,Mountain Health,City10,Oncology
+H005,Valley Hospital,City7,Pediatrics

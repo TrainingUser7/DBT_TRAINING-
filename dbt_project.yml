@@ -1,4 +1,4 @@
-name: smartmart_dbt_project
+name: carelife_project
 version: '1.0'
 config-version: 2
  
@@ -16,10 +16,10 @@ clean-targets:
   - "dbt_modules"
  
 models:
-  smartmart_dbt_project:
+  carelife_project:
     staging:
       +materialized: view
     marts:
       +materialized: incremental
-    dims:
+    intermediate:
       +materialized: table

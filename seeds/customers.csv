@@ -1,4 +1,0 @@
-customer_id,customer_name,email,signup_date,gender,date_of_birth,loyalty_tier,created_at,updated_at
-CUST001,Alice Jones,alice.jones@example.com,2021-02-10,F,1985-07-22,GOLD,2021-02-10 09:00:00,2025-01-10 10:00:00
-CUST002,Bob Singh,bob.singh@example.com,2020-06-01,M,1990-11-11,SILVER,2020-06-01 08:00:00,2025-01-05 08:00:00
-CUST003,Carla O'Neill,carla.oneill@example.com,2022-08-15,F,1995-04-03,BRONZE,2022-08-15 11:30:00,2025-02-01 09:20:00

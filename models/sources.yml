@@ -1,18 +1,22 @@
 version: 2
  
 sources:
-  - name: raw_smartmart
-    database: "{{ env_var('SMARTMART_DB', 'SMARTMART_DB') }}"  # optional: use env var for portability
-    schema: RAW_SMARTMART
+  - name: carelife_raw
+    database: "{{ env_var('DEV_CARELIFE_DB', 'DEV_CARELIFE_DB') }}"  # optional: use env var for portability
+    schema: carelife_raw
     tables:
-      - name: customers
-        description: "Raw customers table loaded from transactional system."
-      - name: regions
-        description: "Regional master data for stores."
-      - name: stores
-        description: "Store master data."
-      - name: orders
-        description: "Raw orders (header level)."
-      - name: order_items
-        description: "Raw order line items."
+      - name: patients
+        description: "Raw Patients table loaded from hospital system."
+      - name: encounters
+        description: "Each visit to the hospital (inpatient + outpatient)"
+      - name: diagnoses
+        description: "Diagnoses per encounter"
+      - name: providers
+        description: "Doctors, nurses, specialists"
+      - name: prescriptions
+        description: "Medications prescribed during encounters"
+      - name: hospitals
+        description: "Hospital metadata (location, specialty)"
+
+      
  

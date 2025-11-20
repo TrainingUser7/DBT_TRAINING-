@@ -1,4 +1,0 @@
-store_id,store_name,region_id,store_open_date,store_type,created_at
-STORE01,High Street Store,R01,2018-04-10,FLAGSHIP,2018-04-10 07:00:00
-STORE02,Seaside Mall,R03,2019-06-01,OUTLET,2019-06-01 08:00:00
-STORE03,County Central,R02,2020-11-15,STANDARD,2020-11-15 09:00:00
