@@ -5,7 +5,7 @@
 with raw as (
   select
     customer_id,
-    customer_name,
+    "customer_name" as customer_name,
     email,
     signup_date,
     gender,
