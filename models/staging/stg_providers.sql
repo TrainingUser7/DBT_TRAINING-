@@ -4,8 +4,7 @@
 
 with source as (
 
-    -- Reference the raw source 'carelife_raw'
-    -- Ensure you have defined 'carelife_raw' in your schema.yml file
+  
     select * from {{ source('carelife_raw', 'providers') }}
 
 ),

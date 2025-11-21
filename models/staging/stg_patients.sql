@@ -10,7 +10,7 @@ select
   gender,
   phone,
   address,
-  insurance,
+  insurance
 from {{ source('carelife_raw','patients') }}
 ),
 clean as (
@@ -23,7 +23,8 @@ select
   trim(gender) as gender,
   try_cast(phone as number) as phone,
   address,
-  trim(insurance) as insurance  from raw
+  trim(insurance) as insurance
+  from raw
 )
 
 select * from clean
