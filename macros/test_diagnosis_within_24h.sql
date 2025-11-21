@@ -1,9 +1,10 @@
--- macros/generic_test_diagnosis_within_24h.sql
+-- macros/diagnosis_within_24h.sql
+
+-- depends_on: {{ ref('stg_diagnoses') }} 
 
 {% macro test_diagnosis_within_24h(model) %}
 
--- Explicitly configure dependencies so dbt can build the DAG correctly
-{{ config(dependencies=['stg_diagnoses']) }}
+-- Remove the config(dependencies=...) line if you added it previously, as the hint above is sufficient.
 
 -- This test selects any encounters that violate the rule:
 -- No encounter should exist without at least one diagnosis within 24 hours of the encounter date.

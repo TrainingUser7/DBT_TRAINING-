@@ -1,3 +1,6 @@
+{{ config(materialized='view') }}
+
+-- depends_on: {{ ref('stg_diagnoses') }}
 
 with raw as (
 
