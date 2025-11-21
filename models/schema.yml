@@ -17,10 +17,18 @@ models:
         description: The natural/source ID for the patient encounter.
         tests:
           - not_null
+          # Relationship test to ensure all encounters exist in the stg_encounters model
+          - relationships:
+              to: ref('stg_encounters')
+              field: encounter_id
       - name: patient_id
         description: The natural/source ID for the patient.
         tests:
           - not_null
+          # Relationship test to ensure all patients exist in the stg_patients model
+          - relationships:
+              to: ref('stg_patients')
+              field: patient_id
       - name: diagnosis_code
         description: The standard medical diagnosis code (e.g., ICD-10).
       - name: description
@@ -32,6 +40,9 @@ models:
 
   - name: stg_encounters
     description: Staging table for patient encounters/visits, cleaned and standardized.
+    # Custom test added here at the model level
+    tests:
+      - diagnosis_within_24h
     columns:
       - name: encounter_sk
         description: Surrogate key for the encounter record.
@@ -42,14 +53,29 @@ models:
         description: The natural/source ID for the encounter.
         tests:
           - not_null
+          - unique
       - name: patient_id
         description: The natural/source ID for the patient involved in the encounter.
         tests:
           - not_null
+          # Relationship test to ensure all patients exist in the stg_patients model
+          - relationships:
+              to: ref('stg_patients')
+              field: patient_id
       - name: primary_provider_id
         description: The natural/source ID for the primary care provider during this encounter.
+        tests:
+          # Relationship test to ensure all providers exist in the stg_providers model
+          - relationships:
+              to: ref('stg_providers')
+              field: provider_id
       - name: hospital_id
         description: The natural/source ID for the hospital where the encounter occurred.
+        tests:
+          # Relationship test to ensure all hospitals exist in the stg_hospitals model
+          - relationships:
+              to: ref('stg_hospitals')
+              field: hospital_id
       - name: encounter_date
         description: The date of the encounter.
         tests:
@@ -130,10 +156,18 @@ models:
         description: The ID of the encounter during which the prescription was issued.
         tests:
           - not_null
+          # Relationship test to ensure all encounters exist in the stg_encounters model
+          - relationships:
+              to: ref('stg_encounters')
+              field: encounter_id
       - name: patient_id
         description: The ID of the patient the prescription is for.
         tests:
           - not_null
+          # Relationship test to ensure all patients exist in the stg_patients model
+          - relationships:
+              to: ref('stg_patients')
+              field: patient_id
       - name: medication
         description: Name of the medication prescribed.
       - name: dose
@@ -144,6 +178,11 @@ models:
         description: Date the medication ended or should end.
       - name: prescribed_by
         description: Name or ID of the provider who prescribed the medication.
+        tests:
+          # Relationship test to ensure all providers exist in the stg_providers model
+          - relationships:
+              to: ref('stg_providers')
+              field: provider_id
 
   - name: stg_providers
     description: Staging table for healthcare provider master data.
@@ -164,3 +203,8 @@ models:
         description: Provider's medical specialty (e.g., 'Cardiology', 'Pediatrics').
       - name: hospital_id
         description: ID of the hospital where the provider is affiliated.
+        tests:
+          # Relationship test to ensure all hospitals exist in the stg_hospitals model
+          - relationships:
+              to: ref('stg_hospitals')
+              field: hospital_id
