@@ -1,22 +1,10 @@
-version: 2
- 
 sources:
-  - name: carelife_raw
-    database: "{{ env_var('DEV_CARELIFE_DB', 'DEV_CARELIFE_DB') }}"  # optional: use env var for portability
-    schema: carelife_raw
-    tables:
-      - name: patients
-        description: "Raw Patients table loaded from hospital system."
-      - name: encounters
-        description: "Each visit to the hospital (inpatient + outpatient)"
-      - name: diagnoses
-        description: "Diagnoses per encounter"
-      - name: providers
-        description: "Doctors, nurses, specialists"
-      - name: prescriptions
-        description: "Medications prescribed during encounters"
-      - name: hospitals
-        description: "Hospital metadata (location, specialty)"
+  - name: raw
+    database: ANALYTICS_DB
+    schema: RAW
 
-      
- 
+    tables:
+      - name: orders
+        description: "Raw orders data from source system"
+      - name: customers
+        description: "Raw customers data from source system"

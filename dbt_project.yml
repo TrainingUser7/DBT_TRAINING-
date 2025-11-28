@@ -1,25 +1,96 @@
-name: carelife_project
-version: '1.0'
+# Name your project! Project names should contain only lowercase characters
+# and underscores. A good package name should reflect your organization's
+# name or the intended use of these models
+name: 'my_new_project'
+version: '1.0.0'
 config-version: 2
- 
-profile: smartmart_profile   # ensure a matching profile exists in your profiles.yml
- 
+
+# This setting configures which "profile" dbt uses for this project.
+# In dbt Cloud this is handled by the connection, but "default" is fine.
+profile: 'default'
+
+# These configurations specify where dbt should look for different types of files.
+# The `model-paths` config, for example, states that models in this project can be
+# found in the "models/" directory.
 model-paths: ["models"]
-seed-paths: ["seeds"]
-snapshot-paths: ["snapshots"]
 analysis-paths: ["analyses"]
 test-paths: ["tests"]
+seed-paths: ["seeds"]
 macro-paths: ["macros"]
-target-path: "target"
-clean-targets:
+snapshot-paths: ["snapshots"]
+
+target-path: "target"  # directory which will store compiled SQL files
+clean-targets:         # directories to be removed by `dbt clean`
   - "target"
-  - "dbt_modules"
- 
+  - "dbt_packages"
+
+# Configuring models
+# Full documentation: https://docs.getdbt.com/docs/configuring-models
+#
+# Here we:
+# - Set a default database & schema for all models
+# - Add global pre/post hooks for query tagging + run audit (Snowflake)
+# - Configure subfolders: staging, marts, semantic, example
+
 models:
-  carelife_project:
+  my_new_project:
+    # 🔧 DEFAULTS FOR ALL MODELS IN THIS PROJECT
+    # Adjust DATABASE and SCHEMA to match your Snowflake setup
+    +database: ANALYTICS_DB
+    +schema: analytics
+    +materialized: view
+
+    # 🔹 Global pre-hook: set a useful Snowflake QUERY_TAG for all models
+    +pre-hook:
+      - "ALTER SESSION SET QUERY_TAG = 'dbt:{{ this }}:{{ invocation_id }}';"
+
+    # 🔹 Global post-hook: log each model run into an audit table (safe, append-only)
+    # Make sure this table exists in Snowflake:
+    #   CREATE TABLE ANALYTICS_DB.MONITORING.MODEL_RUN_AUDIT (
+    #     MODEL_NAME        STRING,
+    #     RUN_ID            STRING,
+    #     RUN_AT            TIMESTAMP_LTZ,
+    #     ROW_COUNT         NUMBER,
+    #     MATERIALIZATION STRING
+    #   );
+    +post-hook:
+      - >
+        INSERT INTO ANALYTICS_DB.MONITORING.MODEL_RUN_AUDIT (
+          MODEL_NAME,
+          RUN_ID,
+          RUN_AT,
+          ROW_COUNT,
+          MATERIALIZATION
+        )
+        SELECT
+          '{{ this }}'        AS MODEL_NAME,
+          '{{ invocation_id }}' AS RUN_ID,
+          CURRENT_TIMESTAMP()   AS RUN_AT,
+          COUNT(*)              AS ROW_COUNT,
+          '{{ config.get("materialized") }}' AS MATERIALIZATION
+        FROM {{ this }}
+
+    # 📂 STAGING LAYER (models/staging/)
     staging:
+      +schema: analytics
       +materialized: view
+
+      # you can further nest, e.g. models/staging/finance/
+      finance:
+        +materialized: view
+
+    # 📂 MARTS LAYER (models/marts/)
     marts:
-      +materialized: incremental
-    intermediate:
+      +schema: analytics
+      +materialized: table  # facts/dims as tables by default
+
+    # 📂 SEMANTIC LAYER FILES (models/semantic/)
+    # YAML files defining semantic_models, metrics, saved_queries
+    semantic:
+      +schema: analytics
+      +materialized: view  # usually irrelevant; these are YAML-only
+
+    # 📂 EXAMPLE FOLDER (if you still use the starter example models)
+    # Applies to all files under models/example/
+    example:
       +materialized: table
